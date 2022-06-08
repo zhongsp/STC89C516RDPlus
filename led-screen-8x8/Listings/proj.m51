@@ -1,0 +1,164 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    06/08/2022  16:46:45  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\main.obj TO .\Objects\proj PRINT (.\Listings\proj.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\proj (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0008H     UNIT         ?DT?MAIN
+            IDATA   0010H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     002DH     UNIT         ?PR?_HC595_WRITE_DATA?MAIN
+            CODE    00BCH     0022H     UNIT         ?PR?MAIN?MAIN
+            CODE    00DEH     000EH     UNIT         ?PR?DELAY500MS?MAIN
+            CODE    00ECH     000BH     UNIT         ?C_INITSEG
+            CODE    00F7H     000AH     UNIT         ?PR?TICK?MAIN
+            CODE    0101H     0005H     UNIT         ?PR?DELAY10US?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\proj (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN
+  +--> ?PR?_HC595_WRITE_DATA?MAIN
+  +--> ?PR?DELAY500MS?MAIN
+
+?PR?_HC595_WRITE_DATA?MAIN
+  +--> ?PR?TICK?MAIN
+  +--> ?PR?DELAY10US?MAIN
+
+?PR?TICK?MAIN
+  +--> ?PR?DELAY10US?MAIN
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/08/2022  16:46:45  PAGE 2
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\proj (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00B0H         PUBLIC        P3
+  C:00BCH         PUBLIC        main
+  C:00F7H         PUBLIC        tick
+  C:0101H         PUBLIC        Delay10us
+  B:00B0H.5       PUBLIC        RCK
+  B:00B0H.6       PUBLIC        SCK
+  C:00DEH         PUBLIC        Delay500ms
+  B:00B0H.4       PUBLIC        SER
+  D:0008H         PUBLIC        ghc595_buf
+  C:008FH         PUBLIC        _hc595_write_data
+  -------         PROC          DELAY10US
+  -------         DO            
+  D:0007H         SYMBOL        i
+  -------         ENDDO         
+  C:0101H         LINE#         8
+  C:0101H         LINE#         9
+  C:0101H         LINE#         12
+  C:0103H         LINE#         13
+  C:0105H         LINE#         14
+  -------         ENDPROC       DELAY10US
+  -------         PROC          DELAY500MS
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  D:0005H         SYMBOL        k
+  -------         ENDDO         
+  C:00DEH         LINE#         16
+  C:00DEH         LINE#         17
+  C:00DEH         LINE#         20
+  C:00DFH         LINE#         21
+  C:00E1H         LINE#         22
+  C:00E3H         LINE#         23
+  C:00E5H         LINE#         25
+  C:00E5H         LINE#         27
+  C:00E5H         LINE#         28
+  C:00E7H         LINE#         29
+  C:00E9H         LINE#         30
+  C:00EBH         LINE#         31
+  -------         ENDPROC       DELAY500MS
+  -------         PROC          TICK
+  C:00F7H         LINE#         33
+  C:00F7H         LINE#         34
+  C:00F7H         LINE#         35
+  C:00F9H         LINE#         36
+  C:00FCH         LINE#         37
+  C:00FEH         LINE#         38
+  -------         ENDPROC       TICK
+  -------         PROC          _HC595_WRITE_DATA
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/08/2022  16:46:45  PAGE 3
+
+
+  D:0006H         SYMBOL        dat
+  -------         DO            
+  D:0005H         SYMBOL        i
+  -------         ENDDO         
+  C:008FH         LINE#         41
+  C:0091H         LINE#         42
+  C:0091H         LINE#         43
+  C:0093H         LINE#         44
+  C:009DH         LINE#         45
+  C:009DH         LINE#         46
+  C:00A8H         LINE#         47
+  C:00ACH         LINE#         48
+  C:00AFH         LINE#         49
+  C:00B2H         LINE#         50
+  C:00B4H         LINE#         51
+  C:00B7H         LINE#         52
+  C:00B9H         LINE#         53
+  -------         ENDPROC       _HC595_WRITE_DATA
+  -------         PROC          MAIN
+  -------         DO            
+  D:0004H         SYMBOL        i
+  -------         ENDDO         
+  C:00BCH         LINE#         58
+  C:00BCH         LINE#         59
+  C:00BCH         LINE#         60
+  C:00BCH         LINE#         62
+  C:00BCH         LINE#         63
+  C:00BCH         LINE#         64
+  C:00BEH         LINE#         66
+  C:00C0H         LINE#         67
+  C:00CAH         LINE#         68
+  C:00CAH         LINE#         69
+  C:00CFH         LINE#         70
+  C:00D8H         LINE#         71
+  C:00DBH         LINE#         72
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+Program Size: data=17.0 xdata=0 code=262
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
