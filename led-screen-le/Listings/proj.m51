@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    06/09/2022  11:26:05  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    06/09/2022  15:14:59  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
@@ -59,7 +59,7 @@ SEGMENT
 
 
 
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/09/2022  11:26:05  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/09/2022  15:14:59  PAGE 2
 
 
 SYMBOL TABLE OF MODULE:  .\Objects\proj (MAIN)
@@ -119,7 +119,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\proj (MAIN)
   C:00B9H         LINE#         36
   -------         ENDPROC       _HC595_WRITE_DATA
   -------         PROC          MAIN
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/09/2022  11:26:05  PAGE 3
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/09/2022  15:14:59  PAGE 3
 
 
   -------         DO            
@@ -136,7 +136,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\proj (MAIN)
   C:00C8H         LINE#         53
   C:00CFH         LINE#         54
   C:00D8H         LINE#         55
-  C:00DDH         LINE#         56
+  C:00DBH         LINE#         56
   C:00E0H         LINE#         57
   -------         ENDPROC       MAIN
   -------         ENDMOD        MAIN

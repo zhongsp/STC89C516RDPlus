@@ -5,20 +5,16 @@ sbit SER = P3^4;
 sbit RCK = P3^5;
 sbit SCK = P3^6;
 
-void Delay500ms()		//@11.0592MHz
+void Delay1ms()		//@11.0592MHz
 {
-	unsigned char i, j, k;
+	unsigned char i, j;
 
 	_nop_();
-	i = 4;
-	j = 129;
-	k = 119;
+	i = 2;
+	j = 199;
 	do
 	{
-		do
-		{
-			while (--k);
-		} while (--j);
+		while (--j);
 	} while (--i);
 }
 
@@ -53,8 +49,11 @@ void hc595_write_data(unsigned char dat)
 	Delay10us();
 }
 
-unsigned char ghc595_buf[8]={0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
-unsigned char col_buf[8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+// 工具生成
+//unsigned char ghc595_buf[8]={0xF8,0x08,0xF8,0xA8,0x00,0x00,0x00,0x00};
+unsigned char ghc595_buf[8]={0x12,0x54,0x38,0xFF,0x38,0x54,0x12,0x00};
+
+unsigned char col_buf[8] = {0x7f,0xbf,0xdf,0xef,0xf7,0xfb,0xfd,0xfe};
 
 void main()
 {
@@ -68,8 +67,8 @@ void main()
 		{
 			P0 = col_buf[i];
 			hc595_write_data(ghc595_buf[i]);
-			
-			Delay500ms();
+			Delay1ms();
+			hc595_write_data(0);
 		}
 	}
 }

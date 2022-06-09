@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              06/09/2022 11:18:46 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              06/09/2022 13:50:40 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -15,63 +15,82 @@ line level    source
    5          sbit RCK = P3^5;
    6          sbit SCK = P3^6;
    7          
-   8          void Delay10us()        //@11.0592MHz
+   8          void Delay500ms()               //@11.0592MHz
    9          {
-  10   1              unsigned char i;
+  10   1              unsigned char i, j, k;
   11   1      
-  12   1              i = 2;
-  13   1              while (--i);
-  14   1      }
-  15          
-  16          void tick()
-  17          {
-  18   1              SCK = 0;
-  19   1              Delay10us();
-  20   1              SCK = 1;
-  21   1              Delay10us();
-  22   1      }
-  23          
-  24          void hc595_write_data(unsigned char dat)
-  25          {
-  26   1              unsigned char i = 0;
-  27   1              for (i = 0; i < 8; i++)
-  28   1              {
-  29   2                      SER = dat >> 7;
-  30   2                      dat <<= 1;
-  31   2                      tick();
-  32   2              }
-  33   1              RCK = 0;
-  34   1              Delay10us();
-  35   1              RCK = 1;
+  12   1              _nop_();
+  13   1              i = 4;
+  14   1              j = 129;
+  15   1              k = 119;
+  16   1              do
+  17   1              {
+  18   2                      do
+  19   2                      {
+  20   3                              while (--k);
+  21   3                      } while (--j);
+  22   2              } while (--i);
+  23   1      }
+  24          
+  25          void Delay10us()        //@11.0592MHz
+  26          {
+  27   1              unsigned char i;
+  28   1      
+  29   1              i = 2;
+  30   1              while (--i);
+  31   1      }
+  32          
+  33          void tick()
+  34          {
+  35   1              SCK = 0;
   36   1              Delay10us();
-  37   1      }
-  38          
-  39          unsigned char ghc595_buf[8]={0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
-  40          unsigned char col_buf[8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-  41          
-  42          void main()
-  43          {
-  44   1              unsigned char i = 0;
-  45   1      
-  46   1              while(1)
-  47   1              {
-  48   2                      i = 0;
-  49   2                      
-  50   2                      for (i = 0; i < 8; i++)
-  51   2                      {
-  52   3                              P0 = col_buf[i];
-  53   3                              hc595_write_data(ghc595_buf[i]);
-  54   3                              hc595_write_data(0);
-C51 COMPILER V9.60.0.0   MAIN                                                              06/09/2022 11:18:46 PAGE 2   
+  37   1              SCK = 1;
+  38   1              Delay10us();
+  39   1      }
+  40          
+  41          void hc595_write_data(unsigned char dat)
+  42          {
+  43   1              unsigned char i = 0;
+  44   1              for (i = 0; i < 8; i++)
+  45   1              {
+  46   2                      SER = dat >> 7;
+  47   2                      dat <<= 1;
+  48   2                      tick();
+  49   2              }
+  50   1              RCK = 0;
+  51   1              Delay10us();
+  52   1              RCK = 1;
+  53   1              Delay10us();
+  54   1      }
+C51 COMPILER V9.60.0.0   MAIN                                                              06/09/2022 13:50:40 PAGE 2   
 
-  55   3                              Delay10us();
-  56   3                      }
-  57   2              }
-  58   1      }
+  55          
+  56          unsigned char ghc595_buf[8]={0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
+  57          unsigned char col_buf[8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+  58          
+  59          void main()
+  60          {
+  61   1              unsigned char i = 0;
+  62   1      
+  63   1              while(1)
+  64   1              {
+  65   2                      i = 0;
+  66   2                      
+  67   2                      for (i = 0; i < 8; i++)
+  68   2                      {
+  69   3                              P0 = col_buf[i];
+  70   3                              hc595_write_data(ghc595_buf[i]);
+  71   3                              Delay10us();
+  72   3                              //hc595_write_data(0);
+  73   3                              
+  74   3                              Delay500ms();
+  75   3                      }
+  76   2              }
+  77   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     99    ----
+   CODE SIZE        =    111    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

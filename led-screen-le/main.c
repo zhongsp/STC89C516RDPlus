@@ -52,8 +52,8 @@ void main()
 		{
 			P0 = col_buf[i];
 			hc595_write_data(ghc595_buf[i]);
-			hc595_write_data(0);
 			Delay10us();
+			hc595_write_data(0);
 		}
 	}
 }

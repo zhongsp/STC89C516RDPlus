@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    06/09/2022  13:50:41  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    06/09/2022  15:31:14  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
@@ -29,11 +29,11 @@ LINK MAP OF MODULE:  .\Objects\proj (MAIN)
             CODE    0000H     0003H     ABSOLUTE     
             CODE    0003H     008CH     UNIT         ?C_C51STARTUP
             CODE    008FH     002DH     UNIT         ?PR?_HC595_WRITE_DATA?MAIN
-            CODE    00BCH     0025H     UNIT         ?PR?MAIN?MAIN
-            CODE    00E1H     0015H     UNIT         ?C_INITSEG
-            CODE    00F6H     000EH     UNIT         ?PR?DELAY500MS?MAIN
-            CODE    0104H     000AH     UNIT         ?PR?TICK?MAIN
-            CODE    010EH     0005H     UNIT         ?PR?DELAY10US?MAIN
+            CODE    00BCH     0027H     UNIT         ?PR?MAIN?MAIN
+            CODE    00E3H     0015H     UNIT         ?C_INITSEG
+            CODE    00F8H     000AH     UNIT         ?PR?DELAY1MS?MAIN
+            CODE    0102H     000AH     UNIT         ?PR?TICK?MAIN
+            CODE    010CH     0005H     UNIT         ?PR?DELAY10US?MAIN
 
 
 
@@ -49,8 +49,7 @@ SEGMENT
 
 ?PR?MAIN?MAIN
   +--> ?PR?_HC595_WRITE_DATA?MAIN
-  +--> ?PR?DELAY10US?MAIN
-  +--> ?PR?DELAY500MS?MAIN
+  +--> ?PR?DELAY1MS?MAIN
 
 ?PR?_HC595_WRITE_DATA?MAIN
   +--> ?PR?TICK?MAIN
@@ -59,8 +58,8 @@ SEGMENT
 ?PR?TICK?MAIN
   +--> ?PR?DELAY10US?MAIN
 
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/09/2022  13:50:41  PAGE 2
 
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/09/2022  15:31:14  PAGE 2
 
 
 
@@ -73,94 +72,90 @@ SYMBOL TABLE OF MODULE:  .\Objects\proj (MAIN)
   C:0000H         SYMBOL        _ICE_DUMMY_
   D:0080H         PUBLIC        P0
   D:00B0H         PUBLIC        P3
+  C:00F8H         PUBLIC        Delay1ms
   C:00BCH         PUBLIC        main
-  C:0104H         PUBLIC        tick
-  C:010EH         PUBLIC        Delay10us
+  C:0102H         PUBLIC        tick
+  C:010CH         PUBLIC        Delay10us
   D:0008H         PUBLIC        col_buf
   B:00B0H.5       PUBLIC        RCK
   B:00B0H.6       PUBLIC        SCK
-  C:00F6H         PUBLIC        Delay500ms
   B:00B0H.4       PUBLIC        SER
   D:0010H         PUBLIC        ghc595_buf
   C:008FH         PUBLIC        _hc595_write_data
-  -------         PROC          DELAY500MS
+  -------         PROC          DELAY1MS
   -------         DO            
   D:0007H         SYMBOL        i
   D:0006H         SYMBOL        j
-  D:0005H         SYMBOL        k
   -------         ENDDO         
-  C:00F6H         LINE#         8
-  C:00F6H         LINE#         9
-  C:00F6H         LINE#         12
-  C:00F7H         LINE#         13
-  C:00F9H         LINE#         14
-  C:00FBH         LINE#         15
+  C:00F8H         LINE#         8
+  C:00F8H         LINE#         9
+  C:00F8H         LINE#         12
+  C:00F9H         LINE#         13
+  C:00FBH         LINE#         14
+  C:00FDH         LINE#         16
   C:00FDH         LINE#         17
-  C:00FDH         LINE#         19
-  C:00FDH         LINE#         20
-  C:00FFH         LINE#         21
-  C:0101H         LINE#         22
-  C:0103H         LINE#         23
-  -------         ENDPROC       DELAY500MS
+  C:00FFH         LINE#         18
+  C:0101H         LINE#         19
+  -------         ENDPROC       DELAY1MS
   -------         PROC          DELAY10US
   -------         DO            
   D:0007H         SYMBOL        i
   -------         ENDDO         
-  C:010EH         LINE#         25
+  C:010CH         LINE#         21
+  C:010CH         LINE#         22
+  C:010CH         LINE#         25
   C:010EH         LINE#         26
-  C:010EH         LINE#         29
-  C:0110H         LINE#         30
-  C:0112H         LINE#         31
+  C:0110H         LINE#         27
   -------         ENDPROC       DELAY10US
   -------         PROC          TICK
-  C:0104H         LINE#         33
-  C:0104H         LINE#         34
-  C:0104H         LINE#         35
-  C:0106H         LINE#         36
-  C:0109H         LINE#         37
-  C:010BH         LINE#         38
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/09/2022  13:50:41  PAGE 3
-
-
+  C:0102H         LINE#         29
+  C:0102H         LINE#         30
+  C:0102H         LINE#         31
+  C:0104H         LINE#         32
+  C:0107H         LINE#         33
+  C:0109H         LINE#         34
   -------         ENDPROC       TICK
   -------         PROC          _HC595_WRITE_DATA
   D:0006H         SYMBOL        dat
   -------         DO            
   D:0005H         SYMBOL        i
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/09/2022  15:31:14  PAGE 3
+
+
   -------         ENDDO         
-  C:008FH         LINE#         41
-  C:0091H         LINE#         42
-  C:0091H         LINE#         43
-  C:0093H         LINE#         44
-  C:009DH         LINE#         45
-  C:009DH         LINE#         46
-  C:00A8H         LINE#         47
-  C:00ACH         LINE#         48
-  C:00AFH         LINE#         49
-  C:00B2H         LINE#         50
-  C:00B4H         LINE#         51
-  C:00B7H         LINE#         52
-  C:00B9H         LINE#         53
+  C:008FH         LINE#         37
+  C:0091H         LINE#         38
+  C:0091H         LINE#         39
+  C:0093H         LINE#         40
+  C:009DH         LINE#         41
+  C:009DH         LINE#         42
+  C:00A8H         LINE#         43
+  C:00ACH         LINE#         44
+  C:00AFH         LINE#         45
+  C:00B2H         LINE#         46
+  C:00B4H         LINE#         47
+  C:00B7H         LINE#         48
+  C:00B9H         LINE#         49
   -------         ENDPROC       _HC595_WRITE_DATA
   -------         PROC          MAIN
   -------         DO            
   D:0004H         SYMBOL        i
   -------         ENDDO         
+  C:00BCH         LINE#         58
   C:00BCH         LINE#         59
   C:00BCH         LINE#         60
-  C:00BCH         LINE#         61
+  C:00BCH         LINE#         62
   C:00BCH         LINE#         63
   C:00BCH         LINE#         64
-  C:00BCH         LINE#         65
-  C:00BEH         LINE#         67
+  C:00BEH         LINE#         66
+  C:00C8H         LINE#         67
   C:00C8H         LINE#         68
-  C:00C8H         LINE#         69
-  C:00CFH         LINE#         70
-  C:00D8H         LINE#         71
-  C:00DBH         LINE#         74
-  C:00DEH         LINE#         75
+  C:00CFH         LINE#         69
+  C:00D8H         LINE#         70
+  C:00DBH         LINE#         71
+  C:00E0H         LINE#         72
   -------         ENDPROC       MAIN
   -------         ENDMOD        MAIN
 
-Program Size: data=25.0 xdata=0 code=275
+Program Size: data=25.0 xdata=0 code=273
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
