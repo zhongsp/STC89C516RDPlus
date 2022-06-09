@@ -1,0 +1,113 @@
+C51 COMPILER V9.60.0.0   LE                                                                06/09/2022 11:13:06 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE LE
+OBJECT MODULE PLACED IN .\Objects\le.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE le.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\le.lst
+                    -) OBJECT(.\Objects\le.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include <INTRINS.H>
+   3          
+   4          sbit SER = P3^4;
+   5          sbit RCK = P3^5;
+   6          sbit SCK = P3^6;
+   7          
+   8          void Delay10us()        //@11.0592MHz
+   9          {
+  10   1              unsigned char i;
+  11   1      
+  12   1              i = 2;
+  13   1              while (--i);
+  14   1      }
+  15          
+  16          void Delay500ms()       //@11.0592MHz
+  17          {
+  18   1              unsigned char i, j, k;
+  19   1      
+  20   1              _nop_();
+  21   1              i = 4;
+  22   1              j = 129;
+  23   1              k = 119;
+  24   1              do
+  25   1              {
+  26   2                      do
+  27   2                      {
+  28   3                              while (--k);
+  29   3                      } while (--j);
+  30   2              } while (--i);
+  31   1      }
+  32          
+  33          void Delay10ms()                //@11.0592MHz
+  34          {
+  35   1              unsigned char i, j;
+  36   1      
+  37   1              i = 18;
+  38   1              j = 235;
+  39   1              do
+  40   1              {
+  41   2                      while (--j);
+  42   2              } while (--i);
+  43   1      }
+  44          
+  45          void tick()
+  46          {
+  47   1              SCK = 0;
+  48   1              Delay10us();
+  49   1              SCK = 1;
+  50   1              Delay10us();
+  51   1      }
+  52          
+  53          void hc595_write_data(unsigned char dat)
+  54          {
+C51 COMPILER V9.60.0.0   LE                                                                06/09/2022 11:13:06 PAGE 2   
+
+  55   1              unsigned char i = 0;
+  56   1              for (i = 0; i < 8; i++)
+  57   1              {
+  58   2                      SER = dat >> 7;
+  59   2                      dat <<= 1;
+  60   2                      tick();
+  61   2              }
+  62   1              RCK = 0;
+  63   1              Delay10us();
+  64   1              RCK = 1;
+  65   1              Delay10us();
+  66   1      }
+  67          
+  68          unsigned char ghc595_buf[8]={0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
+  69          unsigned char col_buf[8] = {0x01, 0x01, 0x01, 0x0f, 0x5f, 0x4f, 0x5f, 0x4f};
+  70          
+  71          void main()
+  72          {
+  73   1              unsigned char i = 0;
+  74   1      
+  75   1              while(1)
+  76   1              {
+  77   2                      i = 0;
+  78   2                      
+  79   2                      for (i = 3; i < 8; i++)
+  80   2                      {
+  81   3                              P0 = col_buf[i];
+  82   3                              hc595_write_data(ghc595_buf[i]);
+  83   3                              hc595_write_data(0);
+  84   3                              Delay10us();
+  85   3                      }
+  86   2              }
+  87   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    122    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     16    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

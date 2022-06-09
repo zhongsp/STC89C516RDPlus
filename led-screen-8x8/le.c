@@ -13,6 +13,35 @@ void Delay10us()	//@11.0592MHz
 	while (--i);
 }
 
+void Delay500ms()	//@11.0592MHz
+{
+	unsigned char i, j, k;
+
+	_nop_();
+	i = 4;
+	j = 129;
+	k = 119;
+	do
+	{
+		do
+		{
+			while (--k);
+		} while (--j);
+	} while (--i);
+}
+
+void Delay10ms()		//@11.0592MHz
+{
+	unsigned char i, j;
+
+	i = 18;
+	j = 235;
+	do
+	{
+		while (--j);
+	} while (--i);
+}
+
 void tick()
 {
 	SCK = 0;
@@ -37,7 +66,7 @@ void hc595_write_data(unsigned char dat)
 }
 
 unsigned char ghc595_buf[8]={0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
-unsigned char col_buf[8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+unsigned char col_buf[8] = {0x01, 0x01, 0x01, 0x0f, 0x5f, 0x4f, 0x5f, 0x4f};
 
 void main()
 {
@@ -47,7 +76,7 @@ void main()
 	{
 		i = 0;
 		
-		for (i = 0; i < 8; i++)
+		for (i = 3; i < 8; i++)
 		{
 			P0 = col_buf[i];
 			hc595_write_data(ghc595_buf[i]);
