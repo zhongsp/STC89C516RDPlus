@@ -1,0 +1,132 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    06/13/2022  15:46:21  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\main.obj TO .\Objects\proj PRINT (.\Listings\proj.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\proj (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0008H     UNIT         ?DT?MAIN
+            DATA    0010H     0002H     UNIT         _DATA_GROUP_
+            IDATA   0012H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     0035H     UNIT         ?PR?_STEP?MAIN
+            CODE    00C4H     0013H     UNIT         ?PR?DELAY1MS?MAIN
+            CODE    00D7H     0013H     UNIT         ?PR?MAIN?MAIN
+            CODE    00EAH     000BH     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\proj (MAIN)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                  -----    -----
+  +--> ?PR?DELAY1MS?MAIN
+  +--> ?PR?_STEP?MAIN
+
+?PR?_STEP?MAIN                 0010H    0002H
+  +--> ?PR?DELAY1MS?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\proj (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/13/2022  15:46:21  PAGE 2
+
+
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  C:00CDH         PUBLIC        Delay1ms
+  C:00D7H         PUBLIC        main
+  D:0008H         PUBLIC        steps
+  C:008FH         PUBLIC        _step
+  -------         PROC          L?0021
+  -------         ENDPROC       L?0021
+  -------         PROC          DELAY1MS
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  -------         ENDDO         
+  C:00CDH         LINE#         4
+  C:00CDH         LINE#         5
+  C:00CDH         LINE#         8
+  C:00CEH         LINE#         9
+  C:00D0H         LINE#         10
+  C:00D2H         LINE#         12
+  C:00D2H         LINE#         13
+  C:00D4H         LINE#         14
+  C:00D6H         LINE#         15
+  -------         ENDPROC       DELAY1MS
+  -------         PROC          _STEP
+  D:0010H         SYMBOL        n
+  D:0005H         SYMBOL        is_rev
+  -------         DO            
+  D:0002H         SYMBOL        i
+  -------         ENDDO         
+  C:008FH         LINE#         20
+  C:0093H         LINE#         21
+  C:0093H         LINE#         23
+  C:0096H         LINE#         24
+  C:0096H         LINE#         25
+  C:00A3H         LINE#         26
+  C:00A3H         LINE#         27
+  C:00A3H         LINE#         28
+  C:00A6H         LINE#         29
+  C:00ADH         LINE#         30
+  C:00ADH         LINE#         32
+  C:00ADH         LINE#         33
+  C:00B9H         LINE#         34
+  C:00B9H         LINE#         35
+  C:00B9H         LINE#         36
+  C:00BCH         LINE#         37
+  C:00C3H         LINE#         38
+  C:00C3H         LINE#         40
+  -------         ENDPROC       _STEP
+  -------         PROC          MAIN
+  C:00D7H         LINE#         42
+  C:00D7H         LINE#         43
+  C:00D7H         LINE#         44
+  C:00DAH         LINE#         46
+  C:00DDH         LINE#         48
+  C:00E5H         LINE#         51
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/13/2022  15:46:21  PAGE 3
+
+
+  C:00E8H         LINE#         53
+  C:00E8H         LINE#         54
+  C:00E8H         LINE#         56
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+Program Size: data=19.0 xdata=0 code=245
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
