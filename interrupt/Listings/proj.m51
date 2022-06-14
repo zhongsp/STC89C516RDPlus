@@ -1,0 +1,153 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    06/14/2022  17:15:06  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\main.obj TO .\Objects\proj PRINT (.\Listings\proj.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\proj (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+            CODE    0006H     000CH     UNIT         ?C_C51STARTUP
+                    0012H     0001H                  *** GAP ***
+            CODE    0013H     0003H     ABSOLUTE     
+            CODE    0016H     0018H     UNIT         ?PR?EXINT0?MAIN
+            CODE    002EH     0018H     UNIT         ?PR?EXINT1?MAIN
+            CODE    0046H     0009H     UNIT         ?PR?DELAY20MS?MAIN
+            CODE    004FH     0008H     UNIT         ?PR?MAIN?MAIN
+            CODE    0057H     0007H     UNIT         ?PR?ENABLE_EXT0_INTERRUPT?MAIN
+            CODE    005EH     0007H     UNIT         ?PR?ENABLE_EXT1_INTERRUPT?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\proj (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?PR?EXINT0?MAIN
+  +--> ?PR?DELAY20MS?MAIN
+
+*** NEW ROOT ***************************************************
+
+?PR?EXINT1?MAIN
+  +--> ?PR?DELAY20MS?MAIN
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN
+  +--> ?PR?ENABLE_EXT0_INTERRUPT?MAIN
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/14/2022  17:15:06  PAGE 2
+
+
+  +--> ?PR?ENABLE_EXT1_INTERRUPT?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\proj (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  B:00A0H.0       PUBLIC        LED1
+  B:00B0H.2       PUBLIC        KEY3
+  B:00B0H.3       PUBLIC        KEY4
+  C:0057H         PUBLIC        enable_ext0_interrupt
+  C:005EH         PUBLIC        enable_ext1_interrupt
+  C:004FH         PUBLIC        main
+  C:0046H         PUBLIC        Delay20ms
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  B:00A8H.2       PUBLIC        EX1
+  B:0088H.2       PUBLIC        IT1
+  C:0016H         PUBLIC        exint0
+  C:002EH         PUBLIC        exint1
+  -------         PROC          DELAY20MS
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  -------         ENDDO         
+  C:0046H         LINE#         8
+  C:0046H         LINE#         9
+  C:0046H         LINE#         12
+  C:0048H         LINE#         13
+  C:004AH         LINE#         15
+  C:004AH         LINE#         16
+  C:004CH         LINE#         17
+  C:004EH         LINE#         18
+  -------         ENDPROC       DELAY20MS
+  -------         PROC          EXINT0
+  C:0016H         LINE#         20
+  C:001FH         LINE#         22
+  C:0022H         LINE#         24
+  C:0025H         LINE#         25
+  C:0025H         LINE#         26
+  C:0027H         LINE#         27
+  C:0027H         LINE#         28
+  -------         ENDPROC       EXINT0
+  -------         PROC          EXINT1
+  C:002EH         LINE#         30
+  C:0037H         LINE#         32
+  C:003AH         LINE#         34
+  C:003DH         LINE#         35
+  C:003DH         LINE#         36
+  C:003FH         LINE#         37
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  06/14/2022  17:15:06  PAGE 3
+
+
+  C:003FH         LINE#         38
+  -------         ENDPROC       EXINT1
+  -------         PROC          ENABLE_EXT0_INTERRUPT
+  C:0057H         LINE#         40
+  C:0057H         LINE#         41
+  C:0057H         LINE#         43
+  C:0059H         LINE#         46
+  C:005BH         LINE#         49
+  C:005DH         LINE#         50
+  -------         ENDPROC       ENABLE_EXT0_INTERRUPT
+  -------         PROC          ENABLE_EXT1_INTERRUPT
+  C:005EH         LINE#         52
+  C:005EH         LINE#         53
+  C:005EH         LINE#         55
+  C:0060H         LINE#         58
+  C:0062H         LINE#         61
+  C:0064H         LINE#         62
+  -------         ENDPROC       ENABLE_EXT1_INTERRUPT
+  -------         PROC          MAIN
+  C:004FH         LINE#         64
+  C:004FH         LINE#         65
+  C:004FH         LINE#         66
+  C:0052H         LINE#         67
+  C:0055H         LINE#         69
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+Program Size: data=9.0 xdata=0 code=100
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
