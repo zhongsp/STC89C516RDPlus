@@ -1,0 +1,94 @@
+C51 COMPILER V9.60.0.0   SMG                                                               06/27/2022 11:56:00 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE SMG
+OBJECT MODULE PLACED IN smg.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE App\smg.c OPTIMIZE(8,SPEED) INCDIR(.\App;.\Public) DEBUG OBJECTEXTEND PR
+                    -INT(.\Listings\smg.lst) OBJECT(smg.obj)
+
+line level    source
+
+   1          #include "smg.h"
+   2          
+   3          //共阴极数码管显示0~F 的段码数据
+   4          u8 gsmg_code[17] = {0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07,
+   5                              0x7f, 0x6f, 0x77, 0x7c, 0x39, 0x5e, 0x79, 0x71};
+   6          /********************************************************************
+   7          ***********
+   8          * 函数名: smg_display
+   9          * 函数功能: 动态数码管显示
+  10          * 输入: dat：要显示的数据
+  11          pos：从左开始第几个位置开始显示，范围1-8
+  12          * 输出: 无
+  13          *********************************************************************
+  14          **********/
+  15          void smg_display(u8 dat[], u8 pos)
+  16          {
+  17   1          u8 i = 0;
+  18   1          u8 pos_temp = pos - 1;
+  19   1          for (i = pos_temp; i < 8; i++)
+  20   1          {
+  21   2              switch (i) //位选
+  22   2              {
+  23   3              case 0:
+  24   3                  LSC = 1;
+  25   3                  LSB = 1;
+  26   3                  LSA = 1;
+  27   3                  break;
+  28   3              case 1:
+  29   3                  LSC = 1;
+  30   3                  LSB = 1;
+  31   3                  LSA = 0;
+  32   3                  break;
+  33   3              case 2:
+  34   3                  LSC = 1;
+  35   3                  LSB = 0;
+  36   3                  LSA = 1;
+  37   3                  break;
+  38   3              case 3:
+  39   3                  LSC = 1;
+  40   3                  LSB = 0;
+  41   3                  LSA = 0;
+  42   3                  break;
+  43   3              case 4:
+  44   3                  LSC = 0;
+  45   3                  LSB = 1;
+  46   3                  LSA = 1;
+  47   3                  break;
+  48   3              case 5:
+  49   3                  LSC = 0;
+  50   3                  LSB = 1;
+  51   3                  LSA = 0;
+  52   3                  break;
+  53   3              case 6:
+  54   3                  LSC = 0;
+C51 COMPILER V9.60.0.0   SMG                                                               06/27/2022 11:56:00 PAGE 2   
+
+  55   3                  LSB = 0;
+  56   3                  LSA = 1;
+  57   3                  break;
+  58   3              case 7:
+  59   3                  LSC = 0;
+  60   3                  LSB = 0;
+  61   3                  LSA = 0;
+  62   3                  break;
+  63   3              }
+  64   2              SMG_A_DP_PORT = gsmg_code[dat[i - pos_temp]]; //传送段选数据
+  65   2              delay_10us(100);                              //延时一段时间，等待显示稳定
+  66   2              SMG_A_DP_PORT = 0x00;                         //消音
+  67   2          }
+  68   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    157    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     17       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

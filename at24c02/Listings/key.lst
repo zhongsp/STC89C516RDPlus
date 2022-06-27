@@ -1,0 +1,64 @@
+C51 COMPILER V9.60.0.0   KEY                                                               06/27/2022 11:56:00 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE KEY
+OBJECT MODULE PLACED IN key.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE App\key.c OPTIMIZE(8,SPEED) INCDIR(.\App;.\Public) DEBUG OBJECTEXTEND PR
+                    -INT(.\Listings\key.lst) OBJECT(key.obj)
+
+line level    source
+
+   1          #include "key.h"
+   2          
+   3          /********************************************************************
+   4          ***********
+   5          * 函数名: key_scan
+   6          * 函数功能: 检测独立按键是否按下，按下则返回对应键值
+   7          * 输入: mode=0：单次扫描按键
+   8          mode=1：连续扫描按键
+   9          * 输出: KEY1_PRESS：K1 按下
+  10          KEY2_PRESS：K2 按下
+  11          KEY3_PRESS：K3 按下
+  12          KEY4_PRESS：K4 按下
+  13          278
+  14          KEY_UNPRESS：未有按键按下
+  15          *********************************************************************
+  16          **********/
+  17          u8 key_scan(u8 mode)
+  18          {
+  19   1          static u8 key = 1;
+  20   1          if (mode)
+  21   1              key = 1;                                                        //连续扫描按键
+  22   1          if (key == 1 && (KEY1 == 0 || KEY2 == 0 || KEY3 == 0 || KEY4 == 0)) //任意按键按下
+  23   1          {
+  24   2              delay_10us(1000); //消抖
+  25   2              key = 0;
+  26   2              if (KEY1 == 0)
+  27   2                  return KEY1_PRESS;
+  28   2              else if (KEY2 == 0)
+  29   2                  return KEY2_PRESS;
+  30   2              else if (KEY3 == 0)
+  31   2                  return KEY3_PRESS;
+  32   2              else if (KEY4 == 0)
+  33   2                  return KEY4_PRESS;
+  34   2          }
+  35   1          else if (KEY1 == 1 && KEY2 == 1 && KEY3 == 1 && KEY4 == 1) //无按键按下
+  36   1          {
+  37   2              key = 1;
+  38   2          }
+  39   1          return KEY_UNPRESS;
+  40   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     76    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

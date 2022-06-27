@@ -1,0 +1,74 @@
+C51 COMPILER V9.60.0.0   24C02                                                             06/27/2022 11:56:00 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE 24C02
+OBJECT MODULE PLACED IN 24c02.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE App\24c02.c OPTIMIZE(8,SPEED) INCDIR(.\App;.\Public) DEBUG OBJECTEXTEND 
+                    -PRINT(.\Listings\24c02.lst) OBJECT(24c02.obj)
+
+line level    source
+
+   1          #include "24c02.h"
+   2          #include "iic.h"
+   3          
+   4          /********************************************************************
+   5          ***********
+   6          * 函数名: at24c02_write_one_byte
+   7          * 函数功能: 在AT24CXX 指定地址写入一个数据
+   8          286
+   9          * 输入: addr:写入数据的目的地址
+  10          dat:要写入的数据
+  11          * 输出: 无
+  12          *********************************************************************
+  13          **********/
+  14          void at24c02_write_one_byte(u8 addr, u8 dat)
+  15          {
+  16   1          iic_start();
+  17   1          iic_write_byte(0XA0); //发送写命令
+  18   1          iic_wait_ack();
+  19   1          iic_write_byte(addr); //发送写地址
+  20   1          iic_wait_ack();
+  21   1          iic_write_byte(dat); //发送字节
+  22   1          iic_wait_ack();
+  23   1          iic_stop(); //产生一个停止条件
+  24   1          delay_ms(10);
+  25   1      }
+  26          /********************************************************************
+  27          ***********
+  28          * 函数名: at24c02_read_one_byte
+  29          * 函数功能: 在AT24CXX 指定地址读出一个数据
+  30          * 输入: addr:开始读数的地址
+  31          * 输出: 读到的数据
+  32          *********************************************************************
+  33          **********/
+  34          u8 at24c02_read_one_byte(u8 addr)
+  35          {
+  36   1          u8 temp = 0;
+  37   1          iic_start();
+  38   1          iic_write_byte(0XA0); //发送写命令
+  39   1          iic_wait_ack();
+  40   1          iic_write_byte(addr); //发送写地址
+  41   1          iic_wait_ack();
+  42   1          iic_start();
+  43   1          iic_write_byte(0XA1); //进入接收模式
+  44   1          iic_wait_ack();
+  45   1          temp = iic_read_byte(0); //读取字节
+  46   1          iic_stop();              //产生一个停止条件
+  47   1          return temp;             //返回读取的数据
+  48   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     89    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+C51 COMPILER V9.60.0.0   24C02                                                             06/27/2022 11:56:00 PAGE 2   
+
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

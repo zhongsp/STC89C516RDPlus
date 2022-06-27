@@ -1,0 +1,8 @@
+"main.obj",
+"24c02.obj",
+"iic.obj",
+"key.obj",
+"smg.obj",
+"public.obj" 
+TO "proj" 
+PRINT(".\Listings\proj.m51") RAMSIZE(256) 

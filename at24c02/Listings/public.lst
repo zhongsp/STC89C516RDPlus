@@ -1,0 +1,66 @@
+C51 COMPILER V9.60.0.0   PUBLIC                                                            06/27/2022 11:56:01 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE PUBLIC
+OBJECT MODULE PLACED IN public.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Public\public.c OPTIMIZE(8,SPEED) INCDIR(.\App;.\Public) DEBUG OBJECTEXT
+                    -END PRINT(.\Listings\public.lst) OBJECT(public.obj)
+
+line level    source
+
+   1          #include "public.h"
+   2          
+   3          /********************************************************************
+   4          ***********
+   5          * 函数名: delay_ms
+   6          * 函数功能: ms 延时函数，ms=1 时，大约延时1ms
+   7          * 输入: ten_us
+   8          * 输出: 无
+   9          *********************************************************************
+  10          **********/
+  11          void delay_ms(u16 ms)           //@11.0592MHz
+  12          {
+  13   1              unsigned char i, j;
+  14   1      
+  15   1          while(ms)
+  16   1          {
+  17   2              _nop_();
+  18   2              i = 2;
+  19   2              j = 199;
+  20   2              do
+  21   2              {
+  22   3                      while (--j);
+  23   3              } while (--i);
+  24   2              
+  25   2              ms--;
+  26   2          }
+  27   1      
+  28   1      }
+  29          
+  30          
+  31          void delay_10us(u16 us)         //@11.0592MHz
+  32          {
+  33   1              unsigned char i;
+  34   1          
+  35   1          while(us)
+  36   1          {
+  37   2              i = 2;
+  38   2              while (--i);
+  39   2              
+  40   2              us--;
+  41   2          }
+  42   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     37    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
