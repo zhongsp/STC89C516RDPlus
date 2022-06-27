@@ -1,10 +1,10 @@
-C51 COMPILER V9.60.0.0   24C02                                                             06/27/2022 11:56:00 PAGE 1   
+C51 COMPILER V9.60.0.0   24C02                                                             06/27/2022 12:12:14 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE 24C02
 OBJECT MODULE PLACED IN 24c02.obj
-COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE App\24c02.c OPTIMIZE(8,SPEED) INCDIR(.\App;.\Public) DEBUG OBJECTEXTEND 
-                    -PRINT(.\Listings\24c02.lst) OBJECT(24c02.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE App\24c02.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\App;.\Public) DEBUG OBJECT
+                    -EXTEND PRINT(.\Listings\24c02.lst) OBJECT(24c02.obj)
 
 line level    source
 
@@ -62,7 +62,7 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =     89    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
-C51 COMPILER V9.60.0.0   24C02                                                             06/27/2022 11:56:00 PAGE 2   
+C51 COMPILER V9.60.0.0   24C02                                                             06/27/2022 12:12:14 PAGE 2   
 
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----       4

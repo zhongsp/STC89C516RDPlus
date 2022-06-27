@@ -1,10 +1,10 @@
-C51 COMPILER V9.60.0.0   PUBLIC                                                            06/27/2022 11:56:01 PAGE 1   
+C51 COMPILER V9.60.0.0   PUBLIC                                                            06/27/2022 12:12:15 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE PUBLIC
 OBJECT MODULE PLACED IN public.obj
-COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Public\public.c OPTIMIZE(8,SPEED) INCDIR(.\App;.\Public) DEBUG OBJECTEXT
-                    -END PRINT(.\Listings\public.lst) OBJECT(public.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Public\public.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\App;.\Public) DEBUG OB
+                    -JECTEXTEND PRINT(.\Listings\public.lst) OBJECT(public.obj)
 
 line level    source
 
