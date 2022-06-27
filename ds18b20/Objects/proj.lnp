@@ -1,0 +1,9 @@
+".\Objects\main.obj",
+".\Objects\24c02.obj",
+".\Objects\ds18b20.obj",
+".\Objects\iic.obj",
+".\Objects\key.obj",
+".\Objects\smg.obj",
+".\Objects\public.obj" 
+TO ".\Objects\proj" 
+PRINT(".\proj.m51") RAMSIZE(256) 

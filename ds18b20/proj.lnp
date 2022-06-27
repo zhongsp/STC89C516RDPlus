@@ -1,0 +1,9 @@
+"main.obj",
+"24c02.obj",
+"ds18b20.obj",
+"iic.obj",
+"key.obj",
+"smg.obj",
+"public.obj" 
+TO "proj" 
+RAMSIZE(256) 
