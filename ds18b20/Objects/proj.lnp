@@ -6,4 +6,4 @@
 ".\Objects\smg.obj",
 ".\Objects\public.obj" 
 TO ".\Objects\proj" 
-PRINT(".\proj.m51") RAMSIZE(256) 
+PRINT(".\Listings\proj.m51") RAMSIZE(256) 

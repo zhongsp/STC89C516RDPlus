@@ -1,10 +1,10 @@
-C51 COMPILER V9.60.0.0   KEY                                                               06/29/2022 08:29:25 PAGE 1   
+C51 COMPILER V9.60.0.0   KEY                                                               06/29/2022 09:04:15 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE KEY
-OBJECT MODULE PLACED IN key.obj
+OBJECT MODULE PLACED IN .\Objects\key.obj
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE App\key.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\App;.\Public) DEBUG OBJECTEX
-                    -TEND PRINT(.\key.lst) OBJECT(key.obj)
+                    -TEND PRINT(.\Listings\key.lst) OBJECT(.\Objects\key.obj)
 
 line level    source
 

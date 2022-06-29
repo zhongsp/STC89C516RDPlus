@@ -1,10 +1,10 @@
-C51 COMPILER V9.60.0.0   SMG                                                               06/29/2022 08:29:25 PAGE 1   
+C51 COMPILER V9.60.0.0   SMG                                                               06/29/2022 09:04:15 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE SMG
-OBJECT MODULE PLACED IN smg.obj
+OBJECT MODULE PLACED IN .\Objects\smg.obj
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE App\smg.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\App;.\Public) DEBUG OBJECTEX
-                    -TEND PRINT(.\smg.lst) OBJECT(smg.obj)
+                    -TEND PRINT(.\Listings\smg.lst) OBJECT(.\Objects\smg.obj)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
   52   3              case 6:
   53   3                  LSC = 0;
   54   3                  LSB = 0;
-C51 COMPILER V9.60.0.0   SMG                                                               06/29/2022 08:29:25 PAGE 2   
+C51 COMPILER V9.60.0.0   SMG                                                               06/29/2022 09:04:15 PAGE 2   
 
   55   3                  LSA = 1;
   56   3                  break;
