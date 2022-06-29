@@ -24,9 +24,10 @@ Project File Date:  06/27/2022
 <h2>Output:</h2>
 Rebuild target 'Target 1'
 compiling main.c...
-User\main.c(16): warning C231: 'gsmg_code': redefinition
+User\main.c(17): warning C231: 'gsmg_code': redefinition
 compiling 24c02.c...
 compiling ds18b20.c...
+App\ds18b20.c(138): warning C280: 'i': unreferenced local variable
 compiling iic.c...
 compiling key.c...
 compiling smg.c...
@@ -37,11 +38,17 @@ linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_AT24C02_READ_ONE_BYTE?24C02
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BIT?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?READ_BIT?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_KEY_SCAN?KEY
-Program Size: data=70.0 xdata=0 code=2027
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DELAY_2US?PUBLIC
+Program Size: data=70.0 xdata=0 code=2034
 creating hex file from "proj"...
-"proj" - 0 Error(s), 4 Warning(s).
-Build Time Elapsed:  00:00:02
+"proj" - 0 Error(s), 8 Warning(s).
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

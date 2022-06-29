@@ -2,9 +2,42 @@
 
 u8 ds18b20_init(void)
 {
-ds18b20_reset();
-return ds18b20_check();
+    ds18b20_reset();
+    return ds18b20_check();
 }
+void Delay5us()		//@11.0592MHz
+{
+}
+void Delay50us()		//@11.0592MHz
+{
+	unsigned char i;
+
+	_nop_();
+	i = 20;
+	while (--i);
+}
+
+void Delay700us()		//@11.0592MHz
+{
+	unsigned char i, j;
+
+	_nop_();
+	i = 2;
+	j = 61;
+	do
+	{
+		while (--j);
+	} while (--i);
+}
+
+void Delay10us()		//@11.0592MHz
+{
+	unsigned char i;
+
+	i = 2;
+	while (--i);
+}
+
 
 void ds18b20_reset(void)
 {
@@ -12,13 +45,13 @@ void ds18b20_reset(void)
     DS18B20_PORT = 0;
     
     // 保持低电平 480-960us
-    delay_10us(75);
+    Delay700us();
     
     // 主机释放总线，上拉电阻将总线拉高电平
     DS18B20_PORT = 1;
     
     // 操持高电平 15 - 60us
-    delay_10us(2);
+    Delay50us();
 }
 
 u8 ds18b20_check(void)
@@ -29,7 +62,7 @@ u8 ds18b20_check(void)
     while (DS18B20_PORT && time_temp < 20)
     {
         time_temp++;
-        delay_10us(1);
+        Delay10us();
     }
     
     if (time_temp >= 20)
@@ -40,9 +73,12 @@ u8 ds18b20_check(void)
     while ((!DS18B20_PORT) && time_temp < 20)
     {
         time_temp++;
-        delay_10us(1);
+        Delay10us();
     }
     if (time_temp >= 20) return 1;
+    
+    Delay700us();
+
     return 0;
 }
 
@@ -54,6 +90,7 @@ float ds18b20_read_temperture(void)
     u16 value = 0;
     
     ds18b20_start();
+    Delay700us();
     ds18b20_reset();
     ds18b20_check();
     
@@ -72,6 +109,10 @@ float ds18b20_read_temperture(void)
         value = (~value) + 1;
         temp = value * 0.0625;
     }
+    else
+    {
+        temp = value * 0.0625;
+    }
     return temp;
 }
 
@@ -83,29 +124,62 @@ void ds18b20_start(void)
     ds18b20_write_byte(0x44);
 }
 
+void write_bit(u8 b)
+{
+    DS18B20_PORT = 0;
+    Delay10us();
+    DS18B20_PORT = b;
+    Delay50us();
+    DS18B20_PORT = 1;
+}
+
+u8 read_bit()
+{
+    u8 i;
+    u8 Bit;
+    DS18B20_PORT = 0;
+    Delay5us();
+    DS18B20_PORT = 1;
+    Delay5us();
+    Bit = DS18B20_PORT;
+    Delay50us();
+    return Bit;
+}
+
 void ds18b20_write_byte(u8 dat)
 {
     u8 i = 0;
+    u8 j = 0;
+
     for (i = 0; i < 8; i++)
     {
-        if ((dat & 0x80) > 0)
+        if ((dat & 0x01) > 0)
         {
             // write 1
             DS18B20_PORT = 0;
-            delay_2us();
+            _nop_();
             DS18B20_PORT = 1;
-            delay_10us(6);
+            // 60us
+            j = 27;
+            while (--j);
         }
         else
         {
             // write 0
             DS18B20_PORT = 0;
-            delay_10us(6);
+
+            // 60us
+            j = 27;
+            while (--j);
+
             DS18B20_PORT = 1;
-            delay_2us();
+            
+            // 2us
+            _nop_();
         }
         
-        dat<<=1;
+        dat>>=1;
+        _nop_();
     }
 }
 
@@ -115,15 +189,22 @@ u8 ds18b20_read_byte(void)
     u8 i = 0;
     u8 value = 0;
     
+    u8 j = 0;
+    
     for (i = 0; i< 8; i++)
     {
         DS18B20_PORT = 0;
-        delay_2us();
+        _nop_(); // 2us
         DS18B20_PORT = 1;
-        delay_10us(1);
-        delay_2us();
+
+        // 12us
+        j = 3;
+        while (--j);
+
         value = DS18B20_PORT;
-        if (DS18B20_PORT == 0)
+        Delay50us();
+
+        if (value == 0)
         {
             dat >>= 1;
         }
@@ -132,10 +213,9 @@ u8 ds18b20_read_byte(void)
             dat >>= 1;
             dat |= 0x80;
         }
-        delay_10us(5);
+        
+        _nop_();
     }
     
     return dat;
 }
-
-

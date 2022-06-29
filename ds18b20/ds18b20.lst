@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   DS18B20                                                           06/27/2022 19:37:44 PAGE 1   
+C51 COMPILER V9.60.0.0   DS18B20                                                           06/29/2022 08:29:24 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE DS18B20
@@ -12,158 +12,241 @@ line level    source
    2          
    3          u8 ds18b20_init(void)
    4          {
-   5   1      ds18b20_reset();
-   6   1      return ds18b20_check();
+   5   1          ds18b20_reset();
+   6   1          return ds18b20_check();
    7   1      }
-   8          
-   9          void ds18b20_reset(void)
-  10          {
-  11   1          // 主机输出低电平
-  12   1          DS18B20_PORT = 0;
-  13   1          
-  14   1          // 保持低电平 480-960us
-  15   1          delay_10us(75);
-  16   1          
-  17   1          // 主机释放总线，上拉电阻将总线拉高电平
-  18   1          DS18B20_PORT = 1;
-  19   1          
-  20   1          // 操持高电平 15 - 60us
-  21   1          delay_10us(2);
-  22   1      }
-  23          
-  24          u8 ds18b20_check(void)
-  25          {
-  26   1          u8 time_temp = 0;
-  27   1          
-  28   1          // 如果有 ds18b20 器件，在复位后，它会产生一个低电平
-  29   1          while (DS18B20_PORT && time_temp < 20)
-  30   1          {
-  31   2              time_temp++;
-  32   2              delay_10us(1);
-  33   2          }
-  34   1          
-  35   1          if (time_temp >= 20)
-  36   1              return 1;
-  37   1          else
-  38   1              time_temp = 0;
-  39   1          
-  40   1          while ((!DS18B20_PORT) && time_temp < 20)
-  41   1          {
-  42   2              time_temp++;
-  43   2              delay_10us(1);
-  44   2          }
-  45   1          if (time_temp >= 20) return 1;
-  46   1          return 0;
-  47   1      }
-  48          
-  49          float ds18b20_read_temperture(void)
-  50          {
-  51   1          float temp;
-  52   1          u8 dath = 0;
-  53   1          u8 datl = 0;
-  54   1          u16 value = 0;
-C51 COMPILER V9.60.0.0   DS18B20                                                           06/27/2022 19:37:44 PAGE 2   
+   8          void Delay5us()         //@11.0592MHz
+   9          {
+  10   1      }
+  11          void Delay50us()                //@11.0592MHz
+  12          {
+  13   1              unsigned char i;
+  14   1      
+  15   1              _nop_();
+  16   1              i = 20;
+  17   1              while (--i);
+  18   1      }
+  19          
+  20          void Delay700us()               //@11.0592MHz
+  21          {
+  22   1              unsigned char i, j;
+  23   1      
+  24   1              _nop_();
+  25   1              i = 2;
+  26   1              j = 61;
+  27   1              do
+  28   1              {
+  29   2                      while (--j);
+  30   2              } while (--i);
+  31   1      }
+  32          
+  33          void Delay10us()                //@11.0592MHz
+  34          {
+  35   1              unsigned char i;
+  36   1      
+  37   1              i = 2;
+  38   1              while (--i);
+  39   1      }
+  40          
+  41          
+  42          void ds18b20_reset(void)
+  43          {
+  44   1          // 主机输出低电平
+  45   1          DS18B20_PORT = 0;
+  46   1          
+  47   1          // 保持低电平 480-960us
+  48   1          Delay700us();
+  49   1          
+  50   1          // 主机释放总线，上拉电阻将总线拉高电平
+  51   1          DS18B20_PORT = 1;
+  52   1          
+  53   1          // 操持高电平 15 - 60us
+  54   1          Delay50us();
+C51 COMPILER V9.60.0.0   DS18B20                                                           06/29/2022 08:29:24 PAGE 2   
 
-  55   1          
-  56   1          ds18b20_start();
-  57   1          ds18b20_reset();
-  58   1          ds18b20_check();
-  59   1          
-  60   1          // skip rom
-  61   1          ds18b20_write_byte(0xcc);
-  62   1          
-  63   1          // read memory
-  64   1          ds18b20_write_byte(0xbe);
-  65   1          
-  66   1          datl=ds18b20_read_byte();
-  67   1          dath=ds18b20_read_byte();
-  68   1          value = (dath<<8)+datl;
-  69   1          
-  70   1          if ((value & 0xf800) == 0xf800)
-  71   1          {
-  72   2              value = (~value) + 1;
-  73   2              temp = value * 0.0625;
-  74   2          }
-  75   1          return temp;
-  76   1      }
-  77          
-  78          void ds18b20_start(void)
-  79          {
-  80   1          ds18b20_reset();
-  81   1          ds18b20_check();
-  82   1          ds18b20_write_byte(0xcc);
-  83   1          ds18b20_write_byte(0x44);
-  84   1      }
-  85          
-  86          void ds18b20_write_byte(u8 dat)
-  87          {
-  88   1          u8 i = 0;
-  89   1          for (i = 0; i < 8; i++)
-  90   1          {
-  91   2              if ((dat & 0x80) > 0)
-  92   2              {
-  93   3                  // write 1
-  94   3                  DS18B20_PORT = 0;
-  95   3                  delay_2us();
-  96   3                  DS18B20_PORT = 1;
-  97   3                  delay_10us(6);
-  98   3              }
-  99   2              else
- 100   2              {
- 101   3                  // write 0
- 102   3                  DS18B20_PORT = 0;
- 103   3                  delay_10us(6);
- 104   3                  DS18B20_PORT = 1;
- 105   3                  delay_2us();
- 106   3              }
- 107   2              
- 108   2              dat<<=1;
- 109   2          }
- 110   1      }
- 111          
- 112          u8 ds18b20_read_byte(void)
- 113          {
- 114   1          u8 dat = 0;
- 115   1          u8 i = 0;
- 116   1          u8 value = 0;
-C51 COMPILER V9.60.0.0   DS18B20                                                           06/27/2022 19:37:44 PAGE 3   
+  55   1      }
+  56          
+  57          u8 ds18b20_check(void)
+  58          {
+  59   1          u8 time_temp = 0;
+  60   1          
+  61   1          // 如果有 ds18b20 器件，在复位后，它会产生一个低电平
+  62   1          while (DS18B20_PORT && time_temp < 20)
+  63   1          {
+  64   2              time_temp++;
+  65   2              Delay10us();
+  66   2          }
+  67   1          
+  68   1          if (time_temp >= 20)
+  69   1              return 1;
+  70   1          else
+  71   1              time_temp = 0;
+  72   1          
+  73   1          while ((!DS18B20_PORT) && time_temp < 20)
+  74   1          {
+  75   2              time_temp++;
+  76   2              Delay10us();
+  77   2          }
+  78   1          if (time_temp >= 20) return 1;
+  79   1          
+  80   1          Delay700us();
+  81   1      
+  82   1          return 0;
+  83   1      }
+  84          
+  85          float ds18b20_read_temperture(void)
+  86          {
+  87   1          float temp;
+  88   1          u8 dath = 0;
+  89   1          u8 datl = 0;
+  90   1          u16 value = 0;
+  91   1          
+  92   1          ds18b20_start();
+  93   1          Delay700us();
+  94   1          ds18b20_reset();
+  95   1          ds18b20_check();
+  96   1          
+  97   1          // skip rom
+  98   1          ds18b20_write_byte(0xcc);
+  99   1          
+ 100   1          // read memory
+ 101   1          ds18b20_write_byte(0xbe);
+ 102   1          
+ 103   1          datl=ds18b20_read_byte();
+ 104   1          dath=ds18b20_read_byte();
+ 105   1          value = (dath<<8)+datl;
+ 106   1          
+ 107   1          if ((value & 0xf800) == 0xf800)
+ 108   1          {
+ 109   2              value = (~value) + 1;
+ 110   2              temp = value * 0.0625;
+ 111   2          }
+ 112   1          else
+ 113   1          {
+ 114   2              temp = value * 0.0625;
+ 115   2          }
+ 116   1          return temp;
+C51 COMPILER V9.60.0.0   DS18B20                                                           06/29/2022 08:29:24 PAGE 3   
 
- 117   1          
- 118   1          for (i = 0; i< 8; i++)
- 119   1          {
- 120   2              DS18B20_PORT = 0;
- 121   2              delay_2us();
- 122   2              DS18B20_PORT = 1;
- 123   2              delay_10us(1);
- 124   2              delay_2us();
- 125   2              value = DS18B20_PORT;
- 126   2              if (DS18B20_PORT == 0)
- 127   2              {
- 128   3                  dat >>= 1;
- 129   3              }
- 130   2              else
- 131   2              {
- 132   3                  dat >>= 1;
- 133   3                  dat |= 0x80;
- 134   3              }
- 135   2              delay_10us(5);
- 136   2          }
- 137   1          
- 138   1          return dat;
- 139   1      }
- 140          
- 141          
+ 117   1      }
+ 118          
+ 119          void ds18b20_start(void)
+ 120          {
+ 121   1          ds18b20_reset();
+ 122   1          ds18b20_check();
+ 123   1          ds18b20_write_byte(0xcc);
+ 124   1          ds18b20_write_byte(0x44);
+ 125   1      }
+ 126          
+ 127          void write_bit(u8 b)
+ 128          {
+ 129   1          DS18B20_PORT = 0;
+ 130   1          Delay10us();
+ 131   1          DS18B20_PORT = b;
+ 132   1          Delay50us();
+ 133   1          DS18B20_PORT = 1;
+ 134   1      }
+ 135          
+ 136          u8 read_bit()
+ 137          {
+ 138   1          u8 i;
+ 139   1          u8 Bit;
+ 140   1          DS18B20_PORT = 0;
+ 141   1          Delay5us();
+ 142   1          DS18B20_PORT = 1;
+ 143   1          Delay5us();
+ 144   1          Bit = DS18B20_PORT;
+ 145   1          Delay50us();
+ 146   1          return Bit;
+ 147   1      }
+*** WARNING C280 IN LINE 138 OF App\ds18b20.c: 'i': unreferenced local variable
+ 148          
+ 149          void ds18b20_write_byte(u8 dat)
+ 150          {
+ 151   1          u8 i = 0;
+ 152   1          u8 j = 0;
+ 153   1      
+ 154   1          for (i = 0; i < 8; i++)
+ 155   1          {
+ 156   2              if ((dat & 0x01) > 0)
+ 157   2              {
+ 158   3                  // write 1
+ 159   3                  DS18B20_PORT = 0;
+ 160   3                  _nop_();
+ 161   3                  DS18B20_PORT = 1;
+ 162   3                  // 60us
+ 163   3                  j = 27;
+ 164   3                  while (--j);
+ 165   3              }
+ 166   2              else
+ 167   2              {
+ 168   3                  // write 0
+ 169   3                  DS18B20_PORT = 0;
+ 170   3      
+ 171   3                  // 60us
+ 172   3                  j = 27;
+ 173   3                  while (--j);
+ 174   3      
+ 175   3                  DS18B20_PORT = 1;
+ 176   3                  
+ 177   3                  // 2us
+C51 COMPILER V9.60.0.0   DS18B20                                                           06/29/2022 08:29:24 PAGE 4   
+
+ 178   3                  _nop_();
+ 179   3              }
+ 180   2              
+ 181   2              dat>>=1;
+ 182   2              _nop_();
+ 183   2          }
+ 184   1      }
+ 185          
+ 186          u8 ds18b20_read_byte(void)
+ 187          {
+ 188   1          u8 dat = 0;
+ 189   1          u8 i = 0;
+ 190   1          u8 value = 0;
+ 191   1          
+ 192   1          u8 j = 0;
+ 193   1          
+ 194   1          for (i = 0; i< 8; i++)
+ 195   1          {
+ 196   2              DS18B20_PORT = 0;
+ 197   2              _nop_(); // 2us
+ 198   2              DS18B20_PORT = 1;
+ 199   2      
+ 200   2              // 12us
+ 201   2              j = 3;
+ 202   2              while (--j);
+ 203   2      
+ 204   2              value = DS18B20_PORT;
+ 205   2              Delay50us();
+ 206   2      
+ 207   2              if (value == 0)
+ 208   2              {
+ 209   3                  dat >>= 1;
+ 210   3              }
+ 211   2              else
+ 212   2              {
+ 213   3                  dat >>= 1;
+ 214   3                  dat |= 0x80;
+ 215   3              }
+ 216   2              
+ 217   2              _nop_();
+ 218   2          }
+ 219   1          
+ 220   1          return dat;
+ 221   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    373    ----
+   CODE SIZE        =    380    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----      11
+   DATA SIZE        =   ----       8
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
