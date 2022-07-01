@@ -85,6 +85,12 @@ void ired() interrupt 0
             }
             return ;
         }
+        
+        // 控制直流电机
+        if (gired_data[2] == 0x45)
+        {
+            P1_0 = ~P1_0;
+        }
     }
 }
 
@@ -93,11 +99,14 @@ void main()
     u8 ired_buf[3];
     init_ired();
     
+    P1_0 = 0;
+    
     while (1)
     {
         ired_buf[0] = gsmg_code[gired_data[2] / 16];
         ired_buf[1] = gsmg_code[gired_data[2] % 16];
         ired_buf[2] = 0x76;
+               
         smg_display(ired_buf, 6);
     }
 }
