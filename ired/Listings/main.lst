@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              07/01/2022 20:49:57 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/01/2022 22:44:43 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -47,87 +47,95 @@ line level    source
   36   1              
   37   1          if (IRED == 0)
   38   1          {
-  39   2              time_cnt = 1000;
-  40   2              while((!IRED) && time_cnt)
-  41   2              {
-  42   3                  delay_10us(1);
-  43   3                  time_cnt--;
-  44   3                  if (time_cnt == 0) return ;
-  45   3              }
-  46   2              if (IRED)
-  47   2              {
-  48   3                  time_cnt = 500;
-  49   3                  while (IRED && time_cnt)
-  50   3                  {
-  51   4                      delay_10us(1);
-  52   4                      time_cnt--;
-  53   4                      if (time_cnt == 0) return;
-C51 COMPILER V9.60.0.0   MAIN                                                              07/01/2022 20:49:57 PAGE 2   
+  39   2              // 等待 9ms 的低电平引导码
+  40   2              time_cnt = 1000;
+  41   2              while((!IRED) && time_cnt)
+  42   2              {
+  43   3                  delay_10us(1);
+  44   3                  time_cnt--;
+  45   3                  if (time_cnt == 0) return ;
+  46   3              }
+  47   2              
+  48   2              if (IRED)
+  49   2              {
+  50   3                  // 等待 4.5ms 的高电平
+  51   3                  time_cnt = 500;
+  52   3                  while (IRED && time_cnt)
+  53   3                  {
+C51 COMPILER V9.60.0.0   MAIN                                                              07/01/2022 22:44:43 PAGE 2   
 
-  54   4                  }
-  55   3                  for (i = 0; i < 4; i++)
-  56   3                  {
-  57   4                      for (j = 0; j < 8; j++)
-  58   4                      {
-  59   5                          time_cnt = 600;
-  60   5                          while ((IRED == 0) && time_cnt)
-  61   5                          {
-  62   6                              delay_10us(1);
-  63   6                              time_cnt--;
-  64   6                              if (time_cnt == 0) return;
-  65   6                          }
-  66   5                          time_cnt = 20;
-  67   5                          while (IRED)
-  68   5                          {
-  69   6                              delay_10us(10);
-  70   6                              ired_high_time++;
-  71   6                              if (ired_high_time > 20) return;
-  72   6                          }
-  73   5                          gired_data[i] >>= 1;
-  74   5                          if (ired_high_time >= 8) gired_data[i] |= 0x80;
-  75   5                          ired_high_time = 0;
-  76   5                      }
-  77   4                  }
-  78   3              }
-  79   2              
-  80   2              if (gired_data[2] != ~gired_data[3])
-  81   2              {
-  82   3                  for (i = 0; i < 4; i++)
-  83   3                  {
-  84   4                      gired_data[i] = 0;
-  85   4                  }
-  86   3                  return ;
-  87   3              }
-  88   2              
-  89   2              if (gired_data[2] == 0x45)
-  90   2              {
-  91   3                  P1_0 = ~P1_0;
-  92   3              }
-  93   2          }
-  94   1      }
-  95          
-  96          void main()
-  97          {
-  98   1          u8 ired_buf[3];
-  99   1          init_ired();
- 100   1          
- 101   1          P1_0 = 0;
- 102   1          
- 103   1          while (1)
- 104   1          {
- 105   2              ired_buf[0] = gsmg_code[gired_data[2] / 16];
- 106   2              ired_buf[1] = gsmg_code[gired_data[2] % 16];
- 107   2              ired_buf[2] = 0x76;
- 108   2                     
- 109   2              smg_display(ired_buf, 6);
- 110   2          }
- 111   1      }
+  54   4                      delay_10us(1);
+  55   4                      time_cnt--;
+  56   4                      if (time_cnt == 0) return;
+  57   4                  }
+  58   3                  
+  59   3                  // 连续接收 4 个字节的：地址码，地址码反码，控制码，控制码反码
+  60   3                  for (i = 0; i < 4; i++)
+  61   3                  {
+  62   4                      for (j = 0; j < 8; j++)
+  63   4                      {
+  64   5                          // 等待 560us 的低电平
+  65   5                          time_cnt = 600;
+  66   5                          while ((IRED == 0) && time_cnt)
+  67   5                          {
+  68   6                              delay_10us(1);
+  69   6                              time_cnt--;
+  70   6                              if (time_cnt == 0) return;
+  71   6                          }
+  72   5                          
+  73   5                          // 计算高电平的时间
+  74   5                          while (IRED)
+  75   5                          {
+  76   6                              delay_10us(10);
+  77   6                              ired_high_time++;
+  78   6                              if (ired_high_time > 20) return;
+  79   6                          }
+  80   5                          gired_data[i] >>= 1;
+  81   5                          if (ired_high_time >= 8) gired_data[i] |= 0x80;
+  82   5                          ired_high_time = 0;
+  83   5                      }
+  84   4                  }
+  85   3              }
+  86   2              
+  87   2              if (gired_data[2] != ~gired_data[3])
+  88   2              {
+  89   3                  for (i = 0; i < 4; i++)
+  90   3                  {
+  91   4                      gired_data[i] = 0;
+  92   4                  }
+  93   3                  return ;
+  94   3              }
+  95   2              
+  96   2              // 控制直流电机
+  97   2              if (gired_data[2] == 0x45)
+  98   2              {
+  99   3                  P1_0 = ~P1_0;
+ 100   3              }
+ 101   2          }
+ 102   1      }
+ 103          
+ 104          void main()
+ 105          {
+ 106   1          u8 ired_buf[3];
+ 107   1          init_ired();
+ 108   1          
+ 109   1          P1_0 = 0;
+ 110   1          
+ 111   1          while (1)
+ 112   1          {
+ 113   2              ired_buf[0] = gsmg_code[gired_data[2] / 16];
+ 114   2              ired_buf[1] = gsmg_code[gired_data[2] % 16];
+ 115   2              ired_buf[2] = 0x76;
+C51 COMPILER V9.60.0.0   MAIN                                                              07/01/2022 22:44:43 PAGE 3   
+
+ 116   2                     
+ 117   2              smg_display(ired_buf, 6);
+ 118   2          }
+ 119   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    403    ----
-C51 COMPILER V9.60.0.0   MAIN                                                              07/01/2022 20:49:57 PAGE 3   
-
+   CODE SIZE        =    394    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

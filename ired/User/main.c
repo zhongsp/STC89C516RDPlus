@@ -36,6 +36,7 @@ void ired() interrupt 0
         
     if (IRED == 0)
     {
+        // 等待 9ms 的低电平引导码
         time_cnt = 1000;
         while((!IRED) && time_cnt)
         {
@@ -43,8 +44,10 @@ void ired() interrupt 0
             time_cnt--;
             if (time_cnt == 0) return ;
         }
+        
         if (IRED)
         {
+            // 等待 4.5ms 的高电平
             time_cnt = 500;
             while (IRED && time_cnt)
             {
@@ -52,10 +55,13 @@ void ired() interrupt 0
                 time_cnt--;
                 if (time_cnt == 0) return;
             }
+            
+            // 连续接收 4 个字节的：地址码，地址码反码，控制码，控制码反码
             for (i = 0; i < 4; i++)
             {
                 for (j = 0; j < 8; j++)
                 {
+                    // 等待 560us 的低电平
                     time_cnt = 600;
                     while ((IRED == 0) && time_cnt)
                     {
@@ -63,7 +69,8 @@ void ired() interrupt 0
                         time_cnt--;
                         if (time_cnt == 0) return;
                     }
-                    time_cnt = 20;
+                    
+                    // 计算高电平的时间
                     while (IRED)
                     {
                         delay_10us(10);
