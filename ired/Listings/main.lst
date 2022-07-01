@@ -1,0 +1,130 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              07/01/2022 17:03:58 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE User\main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Public;.\App) DEBUG OBJECT
+                    -EXTEND PRINT(.\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          /********************************************************************
+   2          ******************
+   3          实验名称：I2C-EEPROM 实验
+   4          接线说明：
+   5          实验现象：下载程序后，数码管右4 位显示0，按K1 键将数据写入到EEPROM 内保存，
+   6          按K2 键读取EEPROM 内保存的数据，按K3 键显示数据加1，按K4 键显示数据清
+   7          零，
+   8          最大能写入的数据是255。
+   9          注意事项：
+  10          *********************************************************************
+  11          ******************/
+  12          
+  13          #include "public.h"
+  14          #include "smg.h"
+  15          
+  16          sbit IRED = P3^2;
+  17          
+  18          gsmg_code[17] = {0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07,
+*** WARNING C231 IN LINE 18 OF User\main.c: 'gsmg_code': redefinition
+  19                                     0x7f, 0x6f, 0x77, 0x7c, 0x39, 0x5e, 0x79, 0x71};
+  20          
+  21          u8 gired_data[4];
+  22                                     
+  23          void init_ired()
+  24          {
+  25   1          IT0 = 1;
+  26   1          EX0 = 1;
+  27   1          EA = 1;
+  28   1          IRED = 1;
+  29   1      }
+  30          
+  31          void ired() interrupt 0
+  32          {
+  33   1          u8 ired_high_time = 0;
+  34   1          u16 time_cnt = 0;
+  35   1          u8 i = 0, j = 0;
+  36   1              
+  37   1          if (IRED == 0)
+  38   1          {
+  39   2              time_cnt = 1000;
+  40   2              while((!IRED) && time_cnt)
+  41   2              {
+  42   3                  delay_10us(1);
+  43   3                  time_cnt--;
+  44   3                  if (time_cnt == 0) return ;
+  45   3              }
+  46   2              if (IRED)
+  47   2              {
+  48   3                  time_cnt = 500;
+  49   3                  while (IRED && time_cnt)
+  50   3                  {
+  51   4                      delay_10us(1);
+  52   4                      time_cnt--;
+  53   4                      if (time_cnt == 0) return;
+C51 COMPILER V9.60.0.0   MAIN                                                              07/01/2022 17:03:58 PAGE 2   
+
+  54   4                  }
+  55   3                  for (i = 0; i < 4; i++)
+  56   3                  {
+  57   4                      for (j = 0; j < 8; j++)
+  58   4                      {
+  59   5                          time_cnt = 600;
+  60   5                          while ((IRED == 0) && time_cnt)
+  61   5                          {
+  62   6                              delay_10us(1);
+  63   6                              time_cnt--;
+  64   6                              if (time_cnt == 0) return;
+  65   6                          }
+  66   5                          time_cnt = 20;
+  67   5                          while (IRED)
+  68   5                          {
+  69   6                              delay_10us(10);
+  70   6                              ired_high_time++;
+  71   6                              if (ired_high_time > 20) return;
+  72   6                          }
+  73   5                          gired_data[i] >>= 1;
+  74   5                          if (ired_high_time >= 8) gired_data[i] |= 0x80;
+  75   5                          ired_high_time = 0;
+  76   5                      }
+  77   4                  }
+  78   3              }
+  79   2              
+  80   2              if (gired_data[2] != ~gired_data[3])
+  81   2              {
+  82   3                  for (i = 0; i < 4; i++)
+  83   3                  {
+  84   4                      gired_data[i] = 0;
+  85   4                  }
+  86   3                  return ;
+  87   3              }
+  88   2          }
+  89   1      }
+  90          
+  91          void main()
+  92          {
+  93   1          u8 ired_buf[3];
+  94   1          init_ired();
+  95   1          
+  96   1          while (1)
+  97   1          {
+  98   2              ired_buf[0] = gsmg_code[gired_data[2] / 16];
+  99   2              ired_buf[1] = gsmg_code[gired_data[2] % 16];
+ 100   2              ired_buf[2] = 0x76;
+ 101   2              smg_display(ired_buf, 6);
+ 102   2          }
+ 103   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    393    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     38       8
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
