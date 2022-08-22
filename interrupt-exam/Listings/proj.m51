@@ -1,0 +1,93 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    08/12/2022  11:00:57  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\main.obj TO .\Objects\proj PRINT (.\Listings\proj.m51)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\proj (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+            CODE    0006H     000FH     UNIT         ?PR?INT0_HANDLER?MAIN
+            CODE    0015H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0021H     0007H     UNIT         ?PR?INIT_INT0?MAIN
+            CODE    0028H     0005H     UNIT         ?PR?MAIN?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\proj (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN
+  +--> ?PR?INIT_INT0?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\proj (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  B:00A8H.7       PUBLIC        EA
+  B:0080H.0       PUBLIC        P0_0
+  B:0080H.1       PUBLIC        P0_1
+  B:00A0H.0       PUBLIC        P2_0
+  B:00A0H.1       PUBLIC        P2_1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  08/12/2022  11:00:57  PAGE 2
+
+
+  C:0021H         PUBLIC        init_int0
+  C:0028H         PUBLIC        main
+  C:0006H         PUBLIC        int0_handler
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  -------         PROC          INIT_INT0
+  C:0021H         LINE#         3
+  C:0021H         LINE#         4
+  C:0021H         LINE#         6
+  C:0023H         LINE#         9
+  C:0025H         LINE#         12
+  C:0027H         LINE#         13
+  -------         ENDPROC       INIT_INT0
+  -------         PROC          INT0_HANDLER
+  C:0006H         LINE#         15
+  C:0008H         LINE#         17
+  C:000DH         LINE#         18
+  C:0012H         LINE#         19
+  -------         ENDPROC       INT0_HANDLER
+  -------         PROC          MAIN
+  C:0028H         LINE#         21
+  C:0028H         LINE#         22
+  C:0028H         LINE#         23
+  C:002BH         LINE#         25
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+Program Size: data=9.0 xdata=0 code=45
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
