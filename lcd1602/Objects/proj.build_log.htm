@@ -18,20 +18,31 @@ Hex Converter:   OH51.exe V2.7.0.0
 CPU DLL:         S8051.DLL V3.122.0.0
 Dialog DLL:      DP51.DLL V2.67.0.0 
 <h2>Project:</h2>
-C:\code\mcu\STC89C516RDPlus\serial-com\proj.uvproj
-Project File Date:  08/23/2022
+C:\code\mcu\STC89C516RDPlus\lcd1602\proj.uvproj
+Project File Date:  08/22/2022
 
 <h2>Output:</h2>
 Rebuild target 'Target 1'
 compiling main.c...
-compiling uart.c...
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_UART_SEND?UART
-Program Size: data=9.0 xdata=0 code=76
+    SEGMENT: ?PR?_LCD_SHOWCHAR?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_SHOWNUM?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_SHOWSIGNEDNUM?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_SHOWHEXNUM?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_SHOWBINNUM?MAIN
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_LCD_SHOWSTRING?MAIN
+    CALLER1: ?PR?UART?MAIN
+    CALLER2: ?C_C51STARTUP
+Program Size: data=56.0 xdata=0 code=1097
 creating hex file from ".\Objects\proj"...
-".\Objects\proj" - 0 Error(s), 1 Warning(s).
-Build Time Elapsed:  00:00:00
+".\Objects\proj" - 0 Error(s), 6 Warning(s).
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

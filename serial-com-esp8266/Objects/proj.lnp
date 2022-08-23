@@ -1,4 +1,5 @@
 ".\Objects\main.obj",
+".\Objects\lcd1602.obj",
 ".\Objects\uart.obj" 
 TO ".\Objects\proj" 
 PRINT(".\Listings\proj.m51") RAMSIZE(256) 

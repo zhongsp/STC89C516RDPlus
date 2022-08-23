@@ -1,0 +1,66 @@
+C51 COMPILER V9.60.0.0   UART                                                              08/23/2022 10:35:17 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE UART
+OBJECT MODULE PLACED IN .\Objects\uart.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE uart.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\uart
+                    -.lst) OBJECT(.\Objects\uart.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          
+   3          // 9600: 0xfa
+   4          void uart_init(unsigned char baud)
+   5          {
+   6   1          // 定时器工作方式寄存器，复位后为0
+   7   1          //
+   8   1          // GATE C/T M1 M0 GATE C/T M1 M0
+   9   1          // 定时器1          定时器0
+  10   1          //
+  11   1          // 定时器 1 工作方式设置为 2，即自动重装初值的8 位计数方式
+  12   1          TMOD |= 0x20; // 00100000
+  13   1          
+  14   1          // 设置串口工作方式 1，方式1 是10 位数据的异步通信口，数据 8 位
+  15   1          //
+  16   1          // SM0 SM1 SM2 REN TB8 RB8 TI RI
+  17   1          // 复位后为 0
+  18   1          SCON = 0x50; // 01010000
+  19   1          
+  20   1          // SMOD = 1，波特率加倍
+  21   1          PCON = 0x80; // 10000000
+  22   1          
+  23   1          // 设置计数器初始值
+  24   1          // 串口工作模式 1 使用 Timer 1 来设置波特率，产生时钟
+  25   1          // = (2^SMOD / 32) * T1溢出率
+  26   1          // T1溢出率 = fosc / 12 / (256 - TH1)
+  27   1          // 12 为单片机使用 12 个时钟作为一个机器周期
+  28   1          TH1 = baud;
+  29   1          TL1 = baud;
+  30   1      
+  31   1          ES = 1;
+  32   1          EA = 1;
+  33   1          TR1 = 1;
+  34   1      }
+  35          
+  36          void uart_send(unsigned char byte)
+  37          {
+  38   1          SBUF = byte;
+  39   1          // 等待 TI 变为 1，即发送完成
+  40   1          while (!TI);
+  41   1          TI = 0;
+  42   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     28    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
